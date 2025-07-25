@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bangkok and Chiang Mai PM2.5 Levels</title>
+  <title>PM2.5 and Health Impacts in Thailand</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
@@ -52,64 +52,77 @@
   </style>
 </head>
 <body>
-  <h1>Bangkok and Chiang Mai PM2.5 Overview</h1>
+  <h1>Thailand PM2.5 and Health Impact Overview</h1>
   <p style="text-align: center; max-width: 800px;">
-    The first chart shows the <strong>highest recorded daily PM2.5</strong> concentrations each year in Bangkok (2014–2023).<br>
-    The second and third charts show <strong>monthly PM2.5 peak values</strong> in Thailand and Chiang Mai for 2023.
+    The following charts show how PM2.5 levels have changed over time in Bangkok, Thailand, and Chiang Mai.<br>
+    The first chart also estimates how PM2.5 may reduce average life expectancy over the years.
   </p>
 
-  <!-- Section 1: Yearly Chart -->
+  <!-- Section 1: Yearly Chart + Text -->
   <div class="chart-section">
     <div class="chart-container">
       <canvas id="yearlyChart"></canvas>
     </div>
     <div class="text-explanation">
-      <strong>Why is PM2.5 increasing over 10 years?</strong><br>
-      Bangkok’s rise in PM2.5 is due to urbanization, vehicle emissions, industrial growth, and seasonal agricultural burning in neighboring regions.<br><br>
-      <strong>Why the dip in certain years?</strong><br>
-      Temporary improvements (e.g. during COVID-19 lockdowns in 2020–2021) led to reduced traffic and industrial activity. Government efforts like car-free days and air-quality controls also helped short-term.
+      <strong>Bangkok PM2.5 vs Life Expectancy Loss</strong><br>
+      PM2.5 levels have been steadily rising in Bangkok due to urbanization, traffic, and seasonal burning. Based on air quality life index models, each 10 µg/m³ of long-term PM2.5 exposure can reduce life expectancy by nearly 1 year. The chart shows this estimated effect over time.
     </div>
   </div>
 
-  <!-- Section 2: Thailand Monthly -->
+  <!-- Section 2: Monthly Thailand -->
   <div class="chart-section">
     <div class="chart-container">
       <canvas id="monthlyChart"></canvas>
     </div>
     <div class="text-explanation">
       <strong>Why does PM2.5 peak in December and January?</strong><br>
-      These are dry, cool months when temperature inversion traps pollutants close to the ground. It's also the peak season for crop burning and dust buildup, especially in Northern Thailand and the Bangkok Basin.
+      These months are dry and cool, leading to temperature inversion which traps pollutants near the ground. Crop burning, traffic, and dust buildup contribute to the seasonal spike across Thailand.
     </div>
   </div>
 
-  <!-- Section 3: Chiang Mai Monthly -->
+  <!-- Section 3: Monthly Chiang Mai -->
   <div class="chart-section">
     <div class="chart-container">
       <canvas id="chiangMaiChart"></canvas>
     </div>
     <div class="text-explanation">
-      <strong>Chiang Mai's PM2.5 behavior</strong><br>
-      Chiang Mai experiences extreme pollution from February to April due to agricultural burning in Northern Thailand and Myanmar. The geography of the mountain basin traps the pollutants, causing levels to spike beyond those in Bangkok or other parts of Thailand.
+      <strong>Why Chiang Mai suffers higher PM2.5?</strong><br>
+      Chiang Mai’s mountain basin geography traps pollutants. During the burning season (Feb–Apr), smoke from Northern Thailand and Myanmar contributes to extreme pollution levels, leading to higher health risks compared to Bangkok.
     </div>
   </div>
 
   <script>
-    // Yearly Chart
+    // Section 1: Yearly PM2.5 and Life Expectancy Loss
     new Chart(document.getElementById('yearlyChart'), {
       type: 'line',
       data: {
         labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
-        datasets: [{
-          label: 'Peak Daily PM2.5 (µg/m³)',
-          data: [108, 122, 130, 115, 140, 150, 135, 128, 142, 155],
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 2,
-          fill: true,
-          tension: 0.3,
-          pointRadius: 5,
-          pointBackgroundColor: 'rgba(255, 99, 132, 1)'
-        }]
+        datasets: [
+          {
+            label: 'Peak Daily PM2.5 (µg/m³)',
+            data: [108, 122, 130, 115, 140, 150, 135, 128, 142, 155],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+            yAxisID: 'y'
+          },
+          {
+            label: 'Life Expectancy Loss (months)',
+            data: [10.6, 12.0, 12.7, 11.2, 13.7, 14.7, 13.2, 12.5, 13.9, 15.2],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+            yAxisID: 'y1'
+          }
+        ]
       },
       options: {
         responsive: true,
@@ -117,21 +130,38 @@
           legend: { position: 'top' },
           title: {
             display: true,
-            text: 'Bangkok Peak Daily PM2.5 (2014–2023)'
+            text: 'Bangkok Peak PM2.5 and Estimated Life Expectancy Loss (2014–2023)'
           }
         },
         scales: {
           y: {
             beginAtZero: false,
-            title: { display: true, text: 'µg/m³' },
+            title: {
+              display: true,
+              text: 'PM2.5 (µg/m³)'
+            },
+            position: 'left',
             suggestedMin: 80,
             suggestedMax: 180
+          },
+          y1: {
+            beginAtZero: false,
+            title: {
+              display: true,
+              text: 'Life Expectancy Loss (months)'
+            },
+            position: 'right',
+            suggestedMin: 9,
+            suggestedMax: 16,
+            grid: {
+              drawOnChartArea: false
+            }
           }
         }
       }
     });
 
-    // Thailand Monthly Chart
+    // Section 2: Thailand Monthly
     new Chart(document.getElementById('monthlyChart'), {
       type: 'line',
       data: {
@@ -168,7 +198,7 @@
       }
     });
 
-    // Chiang Mai Monthly Chart
+    // Section 3: Chiang Mai Monthly
     new Chart(document.getElementById('chiangMaiChart'), {
       type: 'line',
       data: {
