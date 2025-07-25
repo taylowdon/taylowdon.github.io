@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bangkok Peak PM2.5 Levels</title>
+  <title>Bangkok and Chiang Mai PM2.5 Levels</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
@@ -52,13 +52,13 @@
   </style>
 </head>
 <body>
-  <h1>Bangkok Peak PM2.5 Overview</h1>
+  <h1>Bangkok and Chiang Mai PM2.5 Overview</h1>
   <p style="text-align: center; max-width: 800px;">
     The first chart shows the <strong>highest recorded daily PM2.5</strong> concentrations each year in Bangkok (2014–2023).<br>
-    The second chart shows <strong>monthly PM2.5 peak values</strong> in Thailand for 2023.
+    The second and third charts show <strong>monthly PM2.5 peak values</strong> in Thailand and Chiang Mai for 2023.
   </p>
 
-  <!-- Section 1: Yearly Chart + Text -->
+  <!-- Section 1: Yearly Chart -->
   <div class="chart-section">
     <div class="chart-container">
       <canvas id="yearlyChart"></canvas>
@@ -71,7 +71,7 @@
     </div>
   </div>
 
-  <!-- Section 2: Monthly Chart + Text -->
+  <!-- Section 2: Thailand Monthly -->
   <div class="chart-section">
     <div class="chart-container">
       <canvas id="monthlyChart"></canvas>
@@ -79,6 +79,17 @@
     <div class="text-explanation">
       <strong>Why does PM2.5 peak in December and January?</strong><br>
       These are dry, cool months when temperature inversion traps pollutants close to the ground. It's also the peak season for crop burning and dust buildup, especially in Northern Thailand and the Bangkok Basin.
+    </div>
+  </div>
+
+  <!-- Section 3: Chiang Mai Monthly -->
+  <div class="chart-section">
+    <div class="chart-container">
+      <canvas id="chiangMaiChart"></canvas>
+    </div>
+    <div class="text-explanation">
+      <strong>Chiang Mai's PM2.5 behavior</strong><br>
+      Chiang Mai experiences extreme pollution from February to April due to agricultural burning in Northern Thailand and Myanmar. The geography of the mountain basin traps the pollutants, causing levels to spike beyond those in Bangkok or other parts of Thailand.
     </div>
   </div>
 
@@ -120,7 +131,7 @@
       }
     });
 
-    // Monthly Chart
+    // Thailand Monthly Chart
     new Chart(document.getElementById('monthlyChart'), {
       type: 'line',
       data: {
@@ -144,6 +155,43 @@
           title: {
             display: true,
             text: 'Monthly PM2.5 Peak in Thailand (2023)'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            title: { display: true, text: 'µg/m³' },
+            suggestedMin: 60,
+            suggestedMax: 180
+          }
+        }
+      }
+    });
+
+    // Chiang Mai Monthly Chart
+    new Chart(document.getElementById('chiangMaiChart'), {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+          label: 'Chiang Mai Monthly PM2.5 Peak (2023)',
+          data: [170, 160, 155, 130, 95, 80, 70, 65, 90, 110, 140, 160],
+          backgroundColor: 'rgba(255, 206, 86, 0.2)',
+          borderColor: 'rgba(255, 206, 86, 1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3,
+          pointRadius: 5,
+          pointBackgroundColor: 'rgba(255, 206, 86, 1)'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          title: {
+            display: true,
+            text: 'Monthly PM2.5 Peak in Chiang Mai (2023)'
           }
         },
         scales: {
